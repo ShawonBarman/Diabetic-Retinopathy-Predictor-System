@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+{% load static %}
+{% if prediction_text %}
+    <h3 class="text-center alert alert-primary mt-5">{{prediction_text}}</h3>
+{% endif %}  
+<div class="container">
+    <div class="custom-card">
+        <h1 class="home_h">Predicting the Diabetes affected eyes/had retinopathy</h1>
+        <form action="{% url 'predict' %}" method="POST" class="input_form mb-5">
+            {% csrf_token %}
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <label for="AlcoholicDrinkFrequency" class="mb-1">Past 12 mo how often drink alcoholic bev:</label>
+                    <input type="number" class="form-control" name="AlcoholicDrinkFrequency" placeholder="Past 12 mo how often drink alcoholic bev" id="AlcoholicDrinkFrequency" required="required" step="0.01">
+                </div>
+                <div class="col-md-6">
+                    <label for="AvgAlcoholicDrinksPerDay" class="mb-1">Avg # alcoholic drinks/day - past 12 mos:</label>
+                    <input type="number" class="form-control" name="AvgAlcoholicDrinksPerDay" placeholder="Avg # alcoholic drinks/day - past 12 mos" id="AvgAlcoholicDrinksPerDay" required="required" step="0.01">
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <label for="FourOrMoreDrinksDaily" class="mb-1">Ever have 4/5 or more drinks every day:</label>
+                    <input type="number" class="form-control" name="FourOrMoreDrinksDaily" placeholder="Ever have 4/5 or more drinks every day" id="FourOrMoreDrinksDaily" required="required" step="0.01">
+                </div>
+                <div class="col-md-6">
+                    <label for="HighBloodPressureDiagnosis" class="mb-1">Ever told you had high blood pressure:</label>
+                    <input type="number" class="form-control" name="HighBloodPressureDiagnosis" placeholder="Ever told you had high blood pressure" id="HighBloodPressureDiagnosis" required="required" step="0.01">
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <label for="TakingHBP_Medication" class="mb-1">Now taking prescribed medicine for HBP:</label>
+                    <input type="number" class="form-control" name="TakingHBP_Medication" placeholder="Now taking prescribed medicine for HBP" id="TakingHBP_Medication" required="required" step="0.01">
+                </div>
+                <div class="col-md-6">
+                    <label for="TakingCholesterol_Medication" class="mb-1">Told to take prescriptn for cholesterol:</label>
+                    <input type="number" class="form-control" name="TakingCholesterol_Medication" placeholder="Told to take prescriptn for cholesterol" id="TakingCholesterol_Medication" required="required" step="0.01">
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <label for="ChestPain" class="mb-1">SP ever had pain or discomfort in chest:</label>
+                    <input type="number" class="form-control" name="ChestPain" placeholder="SP ever had pain or discomfort in chest" id="ChestPain" required="required" step="0.01">
+                </div>
+                <div class="col-md-6">
+                    <label for="ChestPainHillHurry" class="mb-1">SP get it walking uphill or in a hurry:</label>
+                    <input type="number" class="form-control" name="ChestPainHillHurry" placeholder="SP get it walking uphill or in a hurry" id="ChestPainHillHurry" required="required" step="0.01">
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <label for="SevereChestPain" class="mb-1">Severe pain in chest more than half hour:</label>
+                    <input type="number" class="form-control" name="SevereChestPain" placeholder="Severe pain in chest more than half hour" id="SevereChestPain" required="required" step="0.01">
+                </div>
+                <div class="col-md-6">
+                    <label for="FastFoodFrequency" class="mb-1">Buy food from fast food/pizza places:</label>
+                    <input type="number" class="form-control" name="FastFoodFrequency" placeholder="Buy food from fast food/pizza places" id="FastFoodFrequency" required="required" step="1">
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <label for="RestaurantMealFrequency" class="mb-1">Eat from restaurant w/waiter:</label>
+                    <input type="number" class="form-control" name="RestaurantMealFrequency" placeholder="Eat from restaurant w/waiter" id="RestaurantMealFrequency" required="required" step="1">
+                </div>
+                <div class="col-md-6">
+                    <label for="DailyCaloriesNeeded" class="mb-1">Calories needed per day:</label>
+                    <input type="number" class="form-control" name="DailyCaloriesNeeded" placeholder="Calories needed per day" id="DailyCaloriesNeeded" required="required" step="1">
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <label for="GlucoseMeasureUnit" class="mb-1">Unit of measure (day/week/month/year)-glucose/sugar:</label>
+                    <input type="number" class="form-control" name="GlucoseMeasureUnit" placeholder="Unit of measure (day/week/month/year)-glucose/sugar" id="GlucoseMeasureUnit" required="required" step="1">
+                </div>
+                <div class="col-md-6">
+                    <label for="FeetSoresMeasureUnit" class="mb-1">Unit of measure (day/week/month/year)-feet sores:</label>
+                    <input type="number" class="form-control" name="FeetSoresMeasureUnit" placeholder="Unit of measure (day/week/month/year)-feet sores" id="FeetSoresMeasureUnit" required="required" step="1">
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <label for="WholeMilkConsumption" class="mb-1">You drink whole or regular milk:</label>
+                    <input type="number" class="form-control" name="WholeMilkConsumption" placeholder="You drink whole or regular milk" id="WholeMilkConsumption" required="required" step="1">
+                </div>
+                <div class="col-md-6">
+                    <label for="MealsNotHomePrepared" class="mb-1"># of meals not home prepared:</label>
+                    <input type="number" class="form-control" name="MealsNotHomePrepared" placeholder="# of meals not home prepared" id="MealsNotHomePrepared" required="required" step="1">
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <label for="FastFoodMealsFrequency" class="mb-1"># of meals from fast food or pizza place:</label>
+                    <input type="number" class="form-control" name="FastFoodMealsFrequency" placeholder="# of meals from fast food or pizza place" id="FastFoodMealsFrequency" required="required" step="1">
+                </div>
+                <div class="col-md-6">
+                    <label for="ReadyToEatFoodsFrequency" class="mb-1"># of ready-to-eat foods in past 30 days:</label>
+                    <input type="number" class="form-control" name="ReadyToEatFoodsFrequency" placeholder="# of ready-to-eat foods in past 30 days" id="ReadyToEatFoodsFrequency" required="required" step="1">
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <label for="FrozenMealsFrequency" class="mb-1"># of frozen meals/pizza in past 30 days:</label>
+                    <input type="number" class="form-control" name="FrozenMealsFrequency" placeholder="# of frozen meals/pizza in past 30 days" id="FrozenMealsFrequency" required="required" step="1">
+                </div>
+                <div class="col-md-6">
+                    <label for="AsthmaDiagnosis" class="mb-1">Ever been told you have asthma:</label>
+                    <input type="number" class="form-control" name="AsthmaDiagnosis" placeholder="Ever been told you have asthma" id="AsthmaDiagnosis" required="required" step="0.01">
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <label for="OverweightDiagnosis" class="mb-1">Doctor ever said you were overweight:</label>
+                    <input type="number" class="form-control" name="OverweightDiagnosis" placeholder="Doctor ever said you were overweight" id="OverweightDiagnosis" required="required" step="0.01">
+                </div>
+                <div class="col-md-6">
+                    <label for="BloodTransfusion" class="mb-1">Ever receive blood transfusion:</label>
+                    <input type="number" class="form-control" name="BloodTransfusion" placeholder="Ever receive blood transfusion" id="BloodTransfusion" required="required" step="0.01">
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <label for="AbdominalPain" class="mb-1">Abdominal pain during past 12 months:</label>
+                    <input type="number" class="form-control" name="AbdominalPain" placeholder="Abdominal pain during past 12 months" id="AbdominalPain" required="required" step="0.01">
+                </div>
+                <div class="col-md-6">
+                    <label for="GallstonesDiagnosis" class="mb-1">Has DR ever said you have gallstones:</label>
+                    <input type="number" class="form-control" name="GallstonesDiagnosis" placeholder="Has DR ever said you have gallstones" id="GallstonesDiagnosis" required="required" step="0.01">
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <label for="CancerDiagnosis" class="mb-1">Ever told you had cancer or malignancy:</label>
+                    <input type="number" class="form-control" name="CancerDiagnosis" placeholder="Ever told you had cancer or malignancy" id="CancerDiagnosis" required="required" step="0.01">
+                </div>
+                <div class="col-md-6">
+                    <label for="WeekdaySleepHours" class="mb-1">Sleep hours - weekdays or workdays:</label>
+                    <input type="number" class="form-control" name="WeekdaySleepHours" placeholder="Sleep hours - weekdays or workdays" id="WeekdaySleepHours" required="required" step="0.01">
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <label for="WeekendSleepHours" class="mb-1">Sleep hours - weekends:</label>
+                    <input type="number" class="form-control" name="WeekendSleepHours" placeholder="Sleep hours - weekends" id="WeekendSleepHours" required="required" step="0.01">
+                </div>
+                <div class="col-md-6">
+                    <label for="TroubleSleepingDiagnosis" class="mb-1">Ever told doctor had trouble sleeping:</label>
+                    <input type="number" class="form-control" name="TroubleSleepingDiagnosis" placeholder="Ever told doctor had trouble sleeping" id="TroubleSleepingDiagnosis" required="required" step="0.01">
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <label for="ExcessiveDaytimeSleepiness" class="mb-1">How often feel overly sleepy during day:</label>
+                    <input type="number" class="form-control" name="ExcessiveDaytimeSleepiness" placeholder="How often feel overly sleepy during day" id="ExcessiveDaytimeSleepiness" required="required" step="0.01">
+                </div>
+                <div class="col-md-6">
+                    <label for="CigaretteMeasureUnit" class="mb-1">Unit of measure (day/week/month/year)-cigarettes:</label>
+                    <input type="number" class="form-control" name="CigaretteMeasureUnit" placeholder="Unit of measure (day/week/month/year)-cigarettes" id="CigaretteMeasureUnit" required="required" step="1">
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <label for="LifetimeCigaretteCount" class="mb-1">Cigarettes smoked in entire life:</label>
+                    <input type="number" class="form-control" name="LifetimeCigaretteCount" placeholder="Cigarettes smoked in entire life" id="LifetimeCigaretteCount" required="required" step="1">
+                </div>
+                <div class="col-md-6">
+                    <label for="WeightPerception" class="mb-1">How do you consider your weight:</label>
+                    <input type="number" class="form-control" name="WeightPerception" placeholder="How do you consider your weight" id="WeightPerception" required="required" step="1">
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <label for="SuicidalThoughts" class="mb-1">Thoughts you would be better off dead:</label>
+                    <input type="number" class="form-control" name="SuicidalThoughts" placeholder="Thoughts you would be better off dead" id="SuicidalThoughts" required="required" step="1">
+                </div>
+                <div class="col-md-6">
+                    <label for="BMI" class="mb-1">Body Mass Index (kg/m**2):</label>
+                    <input type="number" class="form-control" name="BMI" placeholder="Body Mass Index (kg/m**2)" id="BMI" required="required" step="0.01">
+                </div>
+            </div>
+            <div class="mt-5 d-flex justify-content-center">
+                <button type="submit" class="btn submit_btn">Predict</button>
+            </div>
+        </form>                           
+    </div>
+</div>
+
+{% endblock %}
